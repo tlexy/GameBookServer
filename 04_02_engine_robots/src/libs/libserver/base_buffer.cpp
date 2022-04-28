@@ -94,7 +94,7 @@ void Buffer::write(const char* data, int len)
 		_ReAlloc(_bufferSize + len);
 	}
 	::memcpy(_buffer + _endIndex, data, len);
-	_beginIndex += len;
+	_endIndex += len;
 }
 
 int Buffer::read(char* data, int len)

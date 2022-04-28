@@ -9,6 +9,9 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
+    <Filter Include="http_parser">
+      <UniqueIdentifier>{11c92a86-3120-4f6f-bf97-661bd30b0fea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="account_server.cpp">
@@ -27,6 +30,21 @@
     </ClInclude>
     <ClInclude Include="http_handler.h">
       <Filter>http</Filter>
+    </ClInclude>
+    <ClInclude Include="httpparser\httprequestparser.h">
+      <Filter>http_parser</Filter>
+    </ClInclude>
+    <ClInclude Include="httpparser\httpresponseparser.h">
+      <Filter>http_parser</Filter>
+    </ClInclude>
+    <ClInclude Include="httpparser\request.h">
+      <Filter>http_parser</Filter>
+    </ClInclude>
+    <ClInclude Include="httpparser\response.h">
+      <Filter>http_parser</Filter>
+    </ClInclude>
+    <ClInclude Include="httpparser\urlparser.h">
+      <Filter>http_parser</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

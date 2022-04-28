@@ -149,6 +149,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="account_server.h" />
+    <ClInclude Include="httpparser\httprequestparser.h" />
+    <ClInclude Include="httpparser\httpresponseparser.h" />
+    <ClInclude Include="httpparser\request.h" />
+    <ClInclude Include="httpparser\response.h" />
+    <ClInclude Include="httpparser\urlparser.h" />
     <ClInclude Include="http_handler.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
