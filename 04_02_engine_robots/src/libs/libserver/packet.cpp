@@ -1,15 +1,16 @@
 #include "packet.h"
 
 Packet::Packet(const Proto::MsgId msgId, SOCKET socket)
+    :Buffer()
 {
     _socket = socket;
     _msgId = msgId;
-    CleanBuffer();
+    //CleanBuffer();
 
-    _bufferSize = DEFAULT_PACKET_BUFFER_SIZE;
+    /*_bufferSize = DEFAULT_PACKET_BUFFER_SIZE;
     _beginIndex = 0;
     _endIndex = 0;
-    _buffer = new char[_bufferSize];
+    _buffer = new char[_bufferSize];*/
 }
 
 Packet::~Packet()
@@ -49,15 +50,20 @@ int Packet::GetMsgId() const
     return _msgId;
 }
 
-void Packet::FillData(const unsigned int size)
+void Packet::SetMsgId(Proto::MsgId id)
 {
-    _endIndex += size;
+    _msgId = id;
 }
 
-void Packet::ReAllocBuffer()
-{
-    Buffer::ReAllocBuffer(_endIndex - _beginIndex);
-}
+//void Packet::FillData(const unsigned int size)
+//{
+//    _endIndex += size;
+//}
+
+//void Packet::ReAllocBuffer()
+//{
+//    Buffer::ReAllocBuffer(_endIndex - _beginIndex);
+//}
 
 SOCKET Packet::GetSocket() const
 {

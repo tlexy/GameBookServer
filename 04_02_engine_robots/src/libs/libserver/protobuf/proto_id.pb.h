@@ -70,6 +70,8 @@ enum MsgId : int {
   MI_AccountQueryOnlineToRedis = 1003,
   MI_AccountQueryOnlineToRedisRs = 1004,
   MI_AccountCheckToHttpRs = 1005,
+  L2HTTP_ACCOUNT_VERIFY = 1006,
+  L2HTTP_ACCOUNT_VERIFYRs = 1007,
   MI_RobotSyncState = 5001,
   MI_RobotTestBegin = 5100,
   MI_RobotTestEnd = 5101,

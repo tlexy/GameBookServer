@@ -4,6 +4,10 @@
 #include "network_listen.h"
 #include "connect_obj.h"
 
+NetworkListen::NetworkListen(NETWORK_TYPE type)
+    :Network(type)
+{}
+
 bool NetworkListen::Init()
 {
     return true;

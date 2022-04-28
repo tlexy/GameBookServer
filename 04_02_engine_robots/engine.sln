@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2047
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31019.35
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apps", "apps", "{03909E62-0FD5-44B3-8553-AA6B4A8C07DE}"
 EndProject
@@ -17,6 +17,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "login", "src\apps\login\log
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "robots", "src\tools\robots\robots.vcxproj", "{793CB1B4-2B27-477B-9F20-AD3EF9512377}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "account_server", "src\apps\account_server\account_server.vcxproj", "{00BD436A-5912-4B2D-9CBA-0A7C326BC23C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,6 +52,14 @@ Global
 		{793CB1B4-2B27-477B-9F20-AD3EF9512377}.Release|x64.Build.0 = Release|x64
 		{793CB1B4-2B27-477B-9F20-AD3EF9512377}.Release|x86.ActiveCfg = Release|Win32
 		{793CB1B4-2B27-477B-9F20-AD3EF9512377}.Release|x86.Build.0 = Release|Win32
+		{00BD436A-5912-4B2D-9CBA-0A7C326BC23C}.Debug|x64.ActiveCfg = Debug|x64
+		{00BD436A-5912-4B2D-9CBA-0A7C326BC23C}.Debug|x64.Build.0 = Debug|x64
+		{00BD436A-5912-4B2D-9CBA-0A7C326BC23C}.Debug|x86.ActiveCfg = Debug|Win32
+		{00BD436A-5912-4B2D-9CBA-0A7C326BC23C}.Debug|x86.Build.0 = Debug|Win32
+		{00BD436A-5912-4B2D-9CBA-0A7C326BC23C}.Release|x64.ActiveCfg = Release|x64
+		{00BD436A-5912-4B2D-9CBA-0A7C326BC23C}.Release|x64.Build.0 = Release|x64
+		{00BD436A-5912-4B2D-9CBA-0A7C326BC23C}.Release|x86.ActiveCfg = Release|Win32
+		{00BD436A-5912-4B2D-9CBA-0A7C326BC23C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,6 +68,7 @@ Global
 		{07CE9E74-2C56-4379-88C5-A7086A8DBCD5} = {F93E11B6-8D8F-4DF8-B2C9-51F116FF48E4}
 		{5509012F-0D61-42CB-8D73-993BFFFB342D} = {03909E62-0FD5-44B3-8553-AA6B4A8C07DE}
 		{793CB1B4-2B27-477B-9F20-AD3EF9512377} = {974F3CC9-A4FE-492D-B14E-0FA8EEC0CD97}
+		{00BD436A-5912-4B2D-9CBA-0A7C326BC23C} = {03909E62-0FD5-44B3-8553-AA6B4A8C07DE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7065A001-E70F-4781-A305-E39B53EC963B}

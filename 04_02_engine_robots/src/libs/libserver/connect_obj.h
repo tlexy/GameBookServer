@@ -24,12 +24,12 @@ public:
 
     SOCKET GetSocket() const { return _socket; }
     bool HasRecvData() const;
-    Packet* GetRecvPacket() const;
-    bool Recv() const;
+    virtual Packet* GetRecvPacket() const;
+    virtual bool Recv() const;
 
     bool HasSendData() const;
-    void SendPacket(Packet* pPacket) const;
-    bool Send() const;
+    virtual void SendPacket(Packet* pPacket) const;
+    virtual bool Send() const;
 
 protected:
     Network* _pNetWork{ nullptr };
@@ -37,5 +37,17 @@ protected:
     RecvNetworkBuffer* _recvBuffer{ nullptr };
     SendNetworkBuffer* _sendBuffer{ nullptr };
     bool _isClose{ false };
+};
+
+class HttpConnectObj : public ConnectObj
+{
+public:
+    HttpConnectObj(Network* pNetWork, SOCKET socket);
+
+    virtual Packet* GetRecvPacket() const;
+    virtual bool Recv() const;
+
+    virtual void SendPacket(Packet* pPacket) const;
+    //virtual bool Send() const;
 };
 

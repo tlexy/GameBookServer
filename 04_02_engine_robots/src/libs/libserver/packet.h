@@ -36,9 +36,9 @@ public:
     void SerializeToBuffer(ProtoClass& protoClase)
     {
         auto total = protoClase.ByteSizeLong();
-        while (GetEmptySize() < total)
+        if (GetEmptySize() < total)
         {
-            ReAllocBuffer();
+            ReAllocBuffer(total);
         }
 
         protoClase.SerializePartialToArray(GetBuffer(), total);
@@ -51,8 +51,9 @@ public:
     char* GetBuffer() const;
     unsigned short GetDataLength() const;
     int GetMsgId() const;
-    void FillData(unsigned int size);
-    void ReAllocBuffer();
+    void SetMsgId(Proto::MsgId id);
+    //void FillData(unsigned int size);
+    //void ReAllocBuffer();
     SOCKET GetSocket() const;
 
 private:

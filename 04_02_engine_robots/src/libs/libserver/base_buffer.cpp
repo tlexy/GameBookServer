@@ -2,10 +2,80 @@
 #include <iostream>
 #include <cstring>
 
+Buffer::Buffer(int init_size)
+{
+	_ReAlloc(init_size);
+}
+
 unsigned Buffer::GetEmptySize()
+{
+	return _bufferSize - _endIndex + _beginIndex;
+}
+
+void Buffer::ReArrangeBuffer(int len)
+{
+	if (GetEmptySize() >= len)
+	{
+		::memmove(_buffer, _buffer + _beginIndex, _endIndex - _beginIndex);
+	}
+	else
+	{
+		_ReAlloc(_bufferSize + len * 2);
+	}
+}
+
+unsigned int Buffer::GetReadSize() const
+{
+	return _endIndex - _beginIndex;
+}
+
+unsigned int Buffer::GetWriteSize() const
 {
 	return _bufferSize - _endIndex;
 }
+
+void Buffer::FillData(unsigned int  size)
+{
+	_endIndex += size;
+	if (_endIndex > _bufferSize)
+	{
+		_endIndex = _bufferSize;
+	}
+}
+
+void Buffer::RemoveData(unsigned int size)
+{
+	_beginIndex += size;
+	if (_beginIndex > _endIndex)
+	{
+		_beginIndex = _endIndex;
+	}
+}
+
+void Buffer::_ReAlloc(int new_cap)
+{
+	if (new_cap <= _bufferSize)
+	{
+		return;
+	}
+
+	char* tempBuffer = new char[new_cap];
+	unsigned int data_len = _endIndex - _beginIndex;
+	::memcpy(tempBuffer, _buffer + _beginIndex, data_len);
+
+	delete[] _buffer;
+	_buffer = tempBuffer;
+
+	_beginIndex = 0;
+	_endIndex = data_len;
+	_bufferSize = new_cap;
+}
+
+//int Buffer::GetBuffer(char*& pBuffer) const
+//{
+//	pBuffer = _buffer + _endIndex;
+//	return GetWriteSize();
+//}
 
 void Buffer::ReAllocBuffer(const unsigned int dataLength)
 {
@@ -14,42 +84,24 @@ void Buffer::ReAllocBuffer(const unsigned int dataLength)
 		std::cout << "Buffer::Realloc except!! " << std::endl;
 	}
 
-	char* tempBuffer = new char[_bufferSize + ADDITIONAL_SIZE];
-	unsigned int _newEndIndex;
-	if (_beginIndex < _endIndex)
+	_ReAlloc(dataLength);
+}
+
+void Buffer::write(const char* data, int len)
+{
+	if (GetWriteSize() < len)
 	{
-		::memcpy(tempBuffer, _buffer + _beginIndex, _endIndex - _beginIndex);
-		_newEndIndex = _endIndex - _beginIndex;
+		_ReAlloc(_bufferSize + len);
 	}
-	else
-	{
-		if (_beginIndex == _endIndex && dataLength <= 0)
-		{
-			_newEndIndex = 0;
-		}
-		else 
-		{
-			// 1.先COPY尾部
-			::memcpy(tempBuffer, _buffer + _beginIndex, _bufferSize - _beginIndex);
-			_newEndIndex = _bufferSize - _beginIndex;
+	::memcpy(_buffer + _endIndex, data, len);
+	_beginIndex += len;
+}
 
-			// 2.再COPY头部
-			if (_endIndex > 0)
-			{
-				::memcpy(tempBuffer + _newEndIndex, _buffer, _endIndex);
-				_newEndIndex += _endIndex;
-			}
-		}
-	}
-
-	// 修改数据
-	_bufferSize += ADDITIONAL_SIZE;
-
-	delete[] _buffer;
-	_buffer = tempBuffer;
-
-	_beginIndex = 0;
-	_endIndex = _newEndIndex;
-
-	//std::cout << "Buffer::Realloc. _bufferSize:" << _bufferSize << std::endl;
+int Buffer::read(char* data, int len)
+{
+	int s = GetReadSize();
+	int min = s > len ? len : s;
+	memcpy(data, _buffer + _beginIndex, min);
+	_beginIndex += min;
+	return min;
 }

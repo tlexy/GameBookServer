@@ -5,6 +5,11 @@
 
 #include <iostream>
 
+Network::Network(NETWORK_TYPE type)
+    :_ntype(type)
+{
+}
+
 void Network::Dispose()
 {
     for (auto iter = _connects.begin(); iter != _connects.end(); ++iter)
@@ -97,7 +102,15 @@ SOCKET Network::CreateSocket()
 
 void Network::CreateConnectObj(SOCKET socket)
 {
-    ConnectObj* pConnectObj = new ConnectObj(this, socket);
+    ConnectObj* pConnectObj = nullptr;
+    if (_ntype == NETWORK_HTTP)
+    {
+        pConnectObj = new HttpConnectObj(this, socket);
+    }
+    else
+    {
+        pConnectObj = new ConnectObj(this, socket);
+    }
 
     if (_connects.find(socket) != _connects.end())
     {

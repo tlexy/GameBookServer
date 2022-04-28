@@ -59,7 +59,7 @@ bool ConnectObj::Recv() const
         // 总空间数据不足一个头的大小，扩容
         if (_recvBuffer->GetEmptySize() < (sizeof(PacketHead) + sizeof(TotalSizeType)))
         {
-            _recvBuffer->ReAllocBuffer();
+            _recvBuffer->ReAllocBuffer(_recvBuffer->GetTotalSize() + 1024);
         }
 
         const int emptySize = _recvBuffer->GetBuffer(pBuffer);
@@ -67,7 +67,7 @@ bool ConnectObj::Recv() const
         if (dataSize > 0)
         {
             //std::cout << "recv size:" << size << std::endl;
-            _recvBuffer->FillDate(dataSize);
+            _recvBuffer->FillData(dataSize);
         }
         else if (dataSize == 0)
         {
@@ -156,7 +156,7 @@ bool ConnectObj::Send() const
         const int size = ::send(_socket, pBuffer, needSendSize, 0);
         if (size > 0)
         {
-            _sendBuffer->RemoveDate(size);
+            _sendBuffer->RemoveData(size);
 
             // 下一帧再发送
             if (size < needSendSize)
@@ -173,3 +173,94 @@ bool ConnectObj::Send() const
         }
     }
 }
+
+
+///////////////////////////////////////////HttpConnectObj
+
+HttpConnectObj::HttpConnectObj(Network* pNetWork, SOCKET socket)
+    :ConnectObj(pNetWork, socket)
+{}
+
+Packet* HttpConnectObj::GetRecvPacket() const
+{
+    return _recvBuffer->GetRawPacket();
+}
+
+bool HttpConnectObj::Recv() const
+{
+    bool isRs = false;
+    char* pBuffer = nullptr;
+    while (true)
+    {
+        // 总空间数据不足一个头的大小，扩容
+        if (_recvBuffer->GetEmptySize() < (sizeof(PacketHead) + sizeof(TotalSizeType)))
+        {
+            _recvBuffer->ReAllocBuffer(_recvBuffer->GetTotalSize() + 1024);
+        }
+
+        const int emptySize = _recvBuffer->GetBuffer(pBuffer);
+        const int dataSize = ::recv(_socket, pBuffer, emptySize, 0);
+        if (dataSize > 0)
+        {
+            //std::cout << "recv size:" << size << std::endl;
+            _recvBuffer->FillData(dataSize);
+        }
+        else if (dataSize == 0)
+        {
+            //std::cout << "recv size:" << dataSize << " error:" << _sock_err() << std::endl;
+            break;
+        }
+        else
+        {
+            const auto socketError = _sock_err();
+#ifndef WIN32
+            if (socketError == EINTR || socketError == EWOULDBLOCK || socketError == EAGAIN)
+            {
+                isRs = true;
+            }
+#else
+            if (socketError == WSAEINTR || socketError == WSAEWOULDBLOCK)
+            {
+                isRs = true;
+            }
+#endif
+
+            //std::cout << "recv size:" << dataSize << " error:" << socketError << std::endl;
+            break;
+        }
+    }
+
+    if (isRs)
+    {
+        while (true)
+        {
+            auto pPacket = _recvBuffer->GetRawPacket();
+            if (pPacket == nullptr)
+            {
+                break;
+            }
+            pPacket->SetMsgId(Proto::MsgId::L2HTTP_ACCOUNT_VERIFY);
+
+            if (_pNetWork->IsBroadcast() && _pNetWork->GetThread() != nullptr)
+            {
+                ThreadMgr::GetInstance()->DispatchPacket(pPacket);
+            }
+            else
+            {
+                _pNetWork->GetThread()->AddPacketToList(pPacket);
+            }
+        }
+    }
+
+    return isRs;
+}
+
+void HttpConnectObj::SendPacket(Packet* pPacket) const
+{
+    _sendBuffer->write(pPacket->GetBuffer(), pPacket->GetDataLength());
+}
+
+//bool HttpConnectObj::Send() const
+//{
+//    return false;
+//}

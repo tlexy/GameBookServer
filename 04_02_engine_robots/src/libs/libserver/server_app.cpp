@@ -63,7 +63,12 @@ void ServerApp::UpdateTime() const
 
 bool ServerApp::AddListenerToThread(std::string ip, int port) const
 {
-    NetworkListen* pListener = new NetworkListen();
+    NETWORK_TYPE ntype = NETWORK_BASE;
+    if (_appType == APP_ACCOUNT)
+    {
+        ntype = NETWORK_HTTP;
+    }
+    NetworkListen* pListener = new NetworkListen(ntype);
     if (!pListener->Listen(ip, port))
     {
         delete pListener;

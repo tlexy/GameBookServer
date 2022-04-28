@@ -27,22 +27,21 @@ public:
     bool HasData() const;
 
     // 包括环的头与环的尾一共的空字节数
-    unsigned int GetEmptySize() override;
+    //unsigned int GetEmptySize() override;
 
-    // 当前可写长度
-    unsigned int GetWriteSize() const;
+    //// 当前可写长度
+    //unsigned int GetWriteSize() const;
 
-    // 当前可读长度
-    unsigned int GetReadSize() const;
+    //// 当前可读长度
+    //unsigned int GetReadSize() const;
 
-    void FillDate(unsigned int  size);
-    void RemoveDate(unsigned int size);
-    void ReAllocBuffer();
+    //void FillData(unsigned int  size);
+    //void RemoveDate(unsigned int size);
+    //void ReAllocBuffer();
+
+    Packet* GetRawPacket();
 
 protected:
-    // 在环形中，极端情况下 _endIndex 可能与 _beginIndex 重合
-    // 重合时有两种可能，一种是没有数据，另一种是满数据
-    unsigned int _dataSize; // 有效数据
     ConnectObj* _pConnectObj{nullptr};
 };
 

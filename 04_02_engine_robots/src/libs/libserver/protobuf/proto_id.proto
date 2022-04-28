@@ -33,6 +33,9 @@ enum MsgId {
 	MI_AccountQueryOnlineToRedisRs		= 1004;
 
 	MI_AccountCheckToHttpRs				= 1005;  //   http to account
+	
+	L2HTTP_ACCOUNT_VERIFY				= 1006;
+	L2HTTP_ACCOUNT_VERIFYRs				= 1007;
 
 
 

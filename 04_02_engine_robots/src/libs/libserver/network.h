@@ -47,6 +47,7 @@ class Packet;
 class Network : public ThreadObject, public ISocketObject
 {
 public:
+    Network(NETWORK_TYPE type = NETWORK_BASE);
     void Dispose() override;
     void RegisterMsgFunction() override;
     SOCKET GetSocket() override { return _masterSocket; }
@@ -90,6 +91,7 @@ protected:
     // 发送协议
     std::mutex _sendMsgMutex;
     std::list<Packet*> _sendMsgList;
+    NETWORK_TYPE _ntype;
 
     // 收到的协议是否需要广播到全线程
     bool _isBroadcast{ true };
